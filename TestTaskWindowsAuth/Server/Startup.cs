@@ -1,4 +1,5 @@
 using System;
+using Blazored.Toast;
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,6 +25,8 @@ namespace TestTaskWindowsAuth.Server
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+            
+            services.AddBlazoredToast();
             
             services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
                 .AddNegotiate();

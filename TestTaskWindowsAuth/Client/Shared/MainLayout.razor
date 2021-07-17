@@ -1,7 +1,14 @@
-@using TestTaskWindowsAuth.Client.Services
 @inherits LayoutComponentBase
-@inject NavigationManager NavigationManager
-@inject WindowsAuthStateProvider WindowsAuthStateProvider
+@using Blazored.Toast.Configuration
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                IconType="IconType.FontAwesome"
+                SuccessClass="success-toast-override"
+                SuccessIcon="far fa-thumbs-up"
+                ErrorIcon="fas fa-exclamation"
+                InfoIcon="fas fa-info"/>
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -9,24 +16,24 @@
 
     <div class="main">
         <nav class="navbar navbar-expand-sm navbar-dark bg-primary top-row">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" 
-            aria-controls="nav-content" aria-expanded="false" aria-label="Переключатель навигации">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-end" id="nav-content"> 
-              <ul class="navbar-nav">
-                  <li class="nav-item align-items-center">
-                      <AuthorizeView>
-                          <Authorized>
-                              <button type="button" class="btn btn-primary" @onclick="ToProfilePage">@context.User.Identity.Name</button>
-                          </Authorized>
-                          <NotAuthorized>
-                              <button type="button" class="btn btn-primary" @onclick="Authorize">Log in</button>
-                          </NotAuthorized>
-                      </AuthorizeView>
-                  </li>
-              </ul>
-          </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" 
+                    aria-controls="nav-content" aria-expanded="false" aria-label="Переключатель навигации">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="nav-content"> 
+                <ul class="navbar-nav">
+                    <li class="nav-item align-items-center">
+                        <AuthorizeView>
+                            <Authorized>
+                                <button type="button" class="btn btn-primary" @onclick="ToProfilePage">@context.User.Identity.Name</button>
+                            </Authorized>
+                            <NotAuthorized>
+                                <button type="button" class="btn btn-primary" @onclick="Authorize">Log in</button>
+                            </NotAuthorized>
+                        </AuthorizeView>
+                    </li>
+                </ul>
+            </div>
         </nav>  
 
         <div class="content px-4">

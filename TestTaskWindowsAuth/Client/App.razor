@@ -1,9 +1,13 @@
 ﻿@using TestTaskWindowsAuth.Client.Pages
+@using DevExpress.Internal
+@using TestTaskWindowsAuth.Client.Services
+@using TestTaskWindowsAuth.Client.Components
 @inject NavigationManager NavigationManager
+@inject WindowsAuthStateProvider WindowsAuthStateProvider
 <CascadingAuthenticationState>  
     <Router AppAssembly="@typeof(Program).Assembly">  
         <Found Context="routeData">  
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">  
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
                     <RedirectToLogin/>
                 </NotAuthorized>

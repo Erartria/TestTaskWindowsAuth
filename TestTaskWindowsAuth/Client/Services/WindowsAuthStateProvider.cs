@@ -2,21 +2,25 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Blazored.Toast.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using TestTaskWindowsAuth.Client.Pages;
 using TestTaskWindowsAuth.Shared;
+
 
 
 namespace TestTaskWindowsAuth.Client.Services
 {
     public class WindowsAuthStateProvider : AuthenticationStateProvider
     {
+        private IToastService _toastService;
         private readonly IAuthService _api;
         private CurrentUserDto _currentUserDto;
         
-        public WindowsAuthStateProvider(IAuthService api)
+        public WindowsAuthStateProvider(IAuthService api, IToastService toastService)
         {
             _api = api;
+            _toastService = toastService;
         }
         
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -27,6 +31,7 @@ namespace TestTaskWindowsAuth.Client.Services
                 var userInfo = await GetCurrentUser(); 
                 if (userInfo.IsAuthenticated)
                 {
+                    _toastService.ShowSuccess("Logged in!");
                     var claims = new[]
                         {
                             new Claim(ClaimTypes.Name, userInfo.User),
@@ -38,7 +43,7 @@ namespace TestTaskWindowsAuth.Client.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Authorization failed: " + ex.ToString());
+                _toastService.ShowInfo("Login via windows authentication to see all app's capability!");
             }
             return new AuthenticationState(new ClaimsPrincipal(identity));
         }
@@ -46,7 +51,12 @@ namespace TestTaskWindowsAuth.Client.Services
         private async Task<CurrentUserDto> GetCurrentUser() 
         {
             if (_currentUserDto != null && _currentUserDto.IsAuthenticated) return _currentUserDto;
-            _currentUserDto = await _api.CurrentUserInfo();
+                _currentUserDto = await _api.CurrentUserInfo();
+            return _currentUserDto;
+        }
+
+        public CurrentUserDto GetUser()
+        {
             return _currentUserDto;
         }
 
@@ -59,7 +69,7 @@ namespace TestTaskWindowsAuth.Client.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Authorization failed: " + ex.ToString());
+                _toastService.ShowError("Invalid login and password");
             }
         }
     }
