@@ -1,7 +1,16 @@
 ﻿@page "/"
+@using System.Security.Principal
+@using Microsoft.AspNetCore.Authorization
+@using TestTaskWindowsAuth.Client.Services
+@using System.Security.Authentication
+@inject NavigationManager NavigationManager
 
-<h1>Hello, world!</h1>
+@attribute [AllowAnonymous]
 
-Welcome to your new app.
+<h1>Windows authentication app</h1>
+<article>
+    This app presents a windows authentication. To check your windows claims navigate to <a href="@NavigationManager.BaseUri/profile">@(NavigationManager.BaseUri)profile</a>
+</article>
+@code {
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+}

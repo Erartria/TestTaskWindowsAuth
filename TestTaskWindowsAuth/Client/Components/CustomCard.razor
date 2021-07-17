@@ -1,0 +1,23 @@
+﻿@namespace TestTaskWindowsAuth.Client.Components
+
+<div class="card">
+    <div class="card-header text-center">
+        @Header
+    </div>
+    <div class="card-body">
+        <h5 class="card-title text-center">@Body</h5>
+        <button @onclick="() => OnClickFunction.InvokeAsync()" class="btn btn-outline-primary float-right">@ButtonText</button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnClickFunction { get; set; }
+    [Parameter]
+    public string Header { get; set; } = null;
+    [Parameter]
+    public string Body { get; set; } = null;
+    [Parameter]
+    public string ButtonText { get; set; } = null;
+
+}

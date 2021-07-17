@@ -1,0 +1,14 @@
+﻿tr, td {
+  border: 0;
+}
+
+.table-space-bottom {
+  width: 0;
+  padding: 0;
+}
+
+@media (min-width: 1165px) {
+  .table-space-bottom {
+    width: 30%;
+  }
+}

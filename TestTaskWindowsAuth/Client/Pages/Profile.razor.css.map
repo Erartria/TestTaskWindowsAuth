@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,oCAAqC;EACnC,EAAE;IACA,SAAS,EAAE,IAAI;;EAEjB,EAAE;IACA,SAAS,EAAE,IAAI",
+"sources": ["Profile.razor.scss"],
+"names": [],
+"file": "Profile.razor.css"
+}

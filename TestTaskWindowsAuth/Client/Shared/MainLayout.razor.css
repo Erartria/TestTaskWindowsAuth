@@ -1,9 +1,22 @@
+.content{
+    overflow: auto;
+    width: calc(100vw - 250px);
+    height: calc(100vh - 3.5rem);
+}
+
+a.navbar-text:hover
+{
+    text-decoration: none;
+}
+
 .page {
     position: relative;
     display: flex;
     flex-direction: column;
 }
-
+nav {
+    background-image: linear-gradient(90deg, rgb(5, 39, 103) 0%, #3a0647 70%)!important;
+}
 .main {
     flex: 1;
 }
@@ -31,7 +44,10 @@
         text-overflow: ellipsis;
     }
 
-@media (max-width: 640.98px) {
+@media (max-width: 640.99px) {
+    .content{
+        width: 100vw;
+    }
     .top-row:not(.auth) {
         display: none;
     }
@@ -61,10 +77,5 @@
         position: sticky;
         top: 0;
         z-index: 1;
-    }
-
-    .main > div {
-        padding-left: 2rem !important;
-        padding-right: 1.5rem !important;
     }
 }

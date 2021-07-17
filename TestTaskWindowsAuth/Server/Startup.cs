@@ -1,11 +1,11 @@
+using System;
+using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Linq;
+using Microsoft.OpenApi.Models;
 
 namespace TestTaskWindowsAuth.Server
 {
@@ -22,9 +22,28 @@ namespace TestTaskWindowsAuth.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
             services.AddRazorPages();
+            
+            services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
+                .AddNegotiate();
+            
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Windows authentication API",
+                    Description = "Windows authentication API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Leonid Kairgeldin",
+                        Email = "l.kairgeldin@mail.ru",
+                        Url = new Uri("https://vk.com/l.kairgeldin"),
+                    },
+                });
+            });
+            /*services.AddAuthentication(HttpSysDefaults.AuthenticationScheme);*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +65,19 @@ namespace TestTaskWindowsAuth.Server
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+            
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

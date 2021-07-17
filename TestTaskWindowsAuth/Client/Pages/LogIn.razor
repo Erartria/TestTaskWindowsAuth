@@ -1,0 +1,32 @@
+﻿@page "/login"
+@using TestTaskWindowsAuth.Client.Components
+@using Microsoft.AspNetCore.Authorization
+@using TestTaskWindowsAuth.Client.Services
+@namespace TestTaskWindowsAuth.Client.Pages
+@inject WindowsAuthStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
+@attribute [AllowAnonymous]
+
+
+<table class="table h-100">
+    <tr class="border-0">
+        <td colspan="3" class="h-25"></td>
+    </tr>
+    <tr class="border-0">
+        <td class="table-space-bottom"></td>
+        <td>
+                <CustomCard OnClickFunction="Login" Header="Anonymous access to page is denied!" Body="Log in to view this page." ButtonText="Log in"/>
+        </td>
+        <td class="table-space-bottom"></td>
+    </tr>
+    <tr class="border-0">
+        <td colspan="3" class="h-25">
+        </td>
+    </tr>
+</table>
+
+@code{
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authStateTask { get; set; }
+}

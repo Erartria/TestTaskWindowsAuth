@@ -1,0 +1,104 @@
+﻿@page "/Profile"
+@using Microsoft.AspNetCore.Authorization
+@using TestTaskWindowsAuth.Client.Services
+@using TestTaskWindowsAuth.Shared
+@inject IAuthService WindowsAuthService
+@attribute [Authorize]
+<style>
+.dev-table{
+    text-align: center;
+    overflow-x: auto;
+    display: block;
+}
+
+.dev-table>.card{
+    text-align: left;
+    display: inline-flex;
+}
+</style>
+
+@if (_currentUserDto != null)
+{
+    <DxDataGrid CssClass="dev-table" DataAsync="@LoadDataAsync"
+                ShowDetailRow="true"
+                ShowPager="false"
+                AllowSort="false">
+        <Columns>
+            <DxDataGridColumn Field="@nameof(CurrentUserDto.User)"/>
+            <DxDataGridColumn Field="@nameof(CurrentUserDto.Domain)"/>
+            <DxDataGridColumn Field="@nameof(CurrentUserDto.AuthType)"/>
+            <DxDataGridColumn Field="@nameof(CurrentUserDto.Token)"/>
+            <DxDataGridCheckBoxColumn Field="@nameof(CurrentUserDto.IsAuthenticated)"/>
+            <DxDataGridCheckBoxColumn Field="@nameof(CurrentUserDto.IsAnonymous)"/>
+            <DxDataGridCheckBoxColumn Field="@nameof(CurrentUserDto.IsGuest)"/>
+            <DxDataGridCheckBoxColumn Field="@nameof(CurrentUserDto.IsSystem)"/>
+            <DxDataGridCheckBoxColumn Field="@nameof(CurrentUserDto.AccessTokenIsClosed)"/>
+        </Columns>
+        <DetailRowTemplate>
+            <DxTabs>
+                <DxTabPage Text="Claims">
+                    <div class="p-3">
+                        @if (context.Claims != null)
+                        {
+                            <DxDataGrid Data="context.Claims" ShowDetailRow="true" ShowGroupPanel="true">
+                                <DxDataGridColumn Field="@nameof(ClaimDto.ClaimTypeShort)" Caption="Name" GroupIndex="0"/>
+                                <DxDataGridColumn Field="@nameof(ClaimDto.ClaimValue)" Caption="Value"/>
+                                <DxDataGridColumn Field="@nameof(@ClaimDto.ClaimTypeLong)" Caption="Schema"/>
+                            </DxDataGrid>
+                            
+                        }
+                        else
+                        {
+                            <em>Loading Claims...</em>
+                        }
+                    </div>
+                </DxTabPage>
+                <DxTabPage Text="Groups">
+                    <div class="p-3">
+                        @if (context.Groups != null)
+                        {
+                            <DxDataGrid Data="context.Groups">
+                                <DxDataGridColumn Field="@nameof(GroupDto.Domain)"/>
+                                <DxDataGridColumn Field="@nameof(GroupDto.GroupId)"/>
+                                <DxDataGridColumn Field="@nameof(GroupDto.GroupName)"/>
+                            </DxDataGrid>
+                        }
+                        else
+                        {
+                            <em>Loading Groups...</em>
+                        }
+                    </div>
+                </DxTabPage>
+                <DxTabPage Text="Devices">
+                    <div class="p-3">
+                        @if (context.Devices != null)
+                        {
+                            <DxDataGrid Data="context.Devices" ShowDetailRow="true">
+                                <Columns>
+                                    <DxDataGridColumn Field="@nameof(ClaimDto.ClaimTypeShort)"/>
+                                    <DxDataGridColumn Field="@nameof(ClaimDto.ClaimValue)"/>
+                                </Columns>
+                                <DetailRowTemplate Context="Device">
+                                    <div>@Device.ClaimTypeLong</div>
+                                </DetailRowTemplate>
+                            </DxDataGrid>
+                        }
+                        else
+                        {
+                            <em>Loading Devices...</em>
+                        }
+                    </div>
+                </DxTabPage>
+            </DxTabs>
+        </DetailRowTemplate>
+    </DxDataGrid>
+}
+else
+{
+    <em>Loading Profile...</em>
+}
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authStateTask { get; set; }
+}
