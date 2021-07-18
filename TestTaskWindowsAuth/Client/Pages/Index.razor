@@ -3,13 +3,32 @@
 @using Microsoft.AspNetCore.Authorization
 @using TestTaskWindowsAuth.Client.Services
 @using System.Security.Authentication
-@inject NavigationManager NavigationManager
 
 @attribute [AllowAnonymous]
 
-<h1>Windows authentication app</h1>
+<h1 class="text-center">Авторизация Windows</h1>
+
+<div class="flex-menu">
+    <a href="api" class="m-button">Api</a>
+    <a href="profile" class="m-button">Profile</a>
+</div>
+
 <article>
-    This app presents a windows authentication. To check your windows claims navigate to <a href="@NavigationManager.BaseUri/profile">@(NavigationManager.BaseUri)profile</a>
+    <h2>О приложении</h2>
+    <section class="img-left grid">
+        <img src="https://businessmir.kz/wp-content/uploads/2019/05/Windows-Lock.png" alt="Windows OS is locked">
+        <p>Приложение демонстрирует возможность авторизации пользователя в приложении WebAssembly Blazor с помощью сквозной авторизации Windows.</p>
+    </section>
+</article>
+<article>
+    <h2>Использованные готовые решения</h2>
+    <section class="img-right grid">
+        <ul>
+            <li><a href="https://github.com/Blazored/Toast">Blazored.Toast</a></li>
+            <li><a href="https://docs.microsoft.com/ru-ru/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-3.1&tabs=visual-studio">Swashbuckle</a></li>
+        </ul>
+        <img src="https://avatars.mds.yandex.net/get-zen_doc/1852570/pub_5e153ea406cc4600afee5362_5e1543972beb4900b11ef855/scale_1200" alt="Libs">
+    </section>
 </article>
 @code {
 
